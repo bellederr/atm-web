@@ -4,9 +4,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import th.ac.ku.atm.model.BankAccount;
-
-import javax.annotation.PostConstruct;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -30,6 +27,22 @@ public class BankAccountService {
 
         return Arrays.asList(accounts);
     }
+
+    public List<BankAccount> getBankAccounts() {
+        String url = "http://localhost:8091/api/bankaccount/";
+
+        ResponseEntity<BankAccount[]> response =
+                restTemplate.getForEntity(url, BankAccount[].class);
+
+        BankAccount[] accounts = response.getBody();
+        return Arrays.asList(accounts);
+    }
+
+    public void openAccount(BankAccount bankAccount) {
+        String url = "http://localhost:8091/api/bankaccount";
+        restTemplate.postForObject(url, bankAccount, BankAccount.class);
+    }
+
 
 
 
